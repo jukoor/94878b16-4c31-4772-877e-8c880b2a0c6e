@@ -6,8 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import FmdGood from "@mui/icons-material/FmdGood";
-import CalendarMonth from "@mui/icons-material/CalendarMonth";
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Add from "@mui/icons-material/Add";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -28,6 +28,7 @@ type Props = {
   venueName: string;
   venueGmapsUrl: string;
   date: string;
+  updateShoppingCartCount: () => void;
 };
 
 const Event: React.FC<Props> = ({
@@ -36,6 +37,7 @@ const Event: React.FC<Props> = ({
   venueName,
   venueGmapsUrl,
   date,
+  updateShoppingCartCount,
 }) => {
   const dateFormatOptions = {
     year: "numeric",
@@ -44,6 +46,7 @@ const Event: React.FC<Props> = ({
     hour: "2-digit",
     minute: "2-digit",
   };
+
   // TODO: Types
   let formatedDate = new Date(date).toLocaleString([], {
     year: "numeric",
@@ -54,7 +57,7 @@ const Event: React.FC<Props> = ({
   });
 
   return (
-    <Grid xs={4} className="event-card">
+    <Grid xs={12} md={6} lg={4} className="event-card">
       <Item>
         <Card>
           <CardMedia
@@ -65,14 +68,19 @@ const Event: React.FC<Props> = ({
           />
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary">
-              <CalendarMonth />
-              {formatedDate}
+              <CalendarMonthIcon className="calendar-icon" />
+              <Typography component="span">{formatedDate}</Typography>
             </Typography>
-            <Typography gutterBottom component="h2" variant="h6">
+            <Typography
+              gutterBottom
+              component="h2"
+              variant="h6"
+              className="event-title"
+            >
               {title}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              <FmdGood />
+              <FmdGoodIcon className="location-icon" />
               <a
                 className="external-link"
                 href={venueGmapsUrl}
@@ -84,7 +92,12 @@ const Event: React.FC<Props> = ({
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" variant="contained" startIcon={<Add />}>
+            <Button
+              size="small"
+              variant="contained"
+              startIcon={<Add />}
+              onClick={updateShoppingCartCount}
+            >
               Add
             </Button>
           </CardActions>

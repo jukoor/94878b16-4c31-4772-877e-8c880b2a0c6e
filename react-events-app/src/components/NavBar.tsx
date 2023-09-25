@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import "./NavBar.scss";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,9 +56,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 interface Props {
   onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  shoppingCartCount: number;
 }
 
-export default function PrimarySearchAppBar({ onSearchInput }: Props) {
+export default function PrimarySearchAppBar({
+  onSearchInput,
+  shoppingCartCount,
+}: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -94,7 +99,7 @@ export default function PrimarySearchAppBar({ onSearchInput }: Props) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" className="header">
         <Toolbar>
           <Typography
             variant="h6"
@@ -125,7 +130,11 @@ export default function PrimarySearchAppBar({ onSearchInput }: Props) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge
+                badgeContent={shoppingCartCount}
+                showZero
+                className="badge"
+              >
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>

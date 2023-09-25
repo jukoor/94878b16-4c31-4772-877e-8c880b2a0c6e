@@ -18,15 +18,27 @@ const Item = styled(Paper)(({ theme }) => ({
 
 type Props = {
   eventsData: object[];
+  updateShoppingCartCount: () => void;
 };
 
-const EventsList: React.FC<Props> = ({ eventsData }) => {
+const EventsList: React.FC<Props> = ({
+  eventsData,
+  updateShoppingCartCount,
+}) => {
   const [filteredEventsData, setFilteredEventsData] = useState(eventsData);
+  const [currentHighestDate, setCurrentHighestDate] = useState(0);
 
   function sortByDateAsc(a: any, b: any): number {
-    var dateA = new Date(a.date);
-    var dateB = new Date(b.date);
-    return dateA > dateB ? 1 : -1;
+    let dateA = new Date(a.date);
+    let dateB = new Date(b.date);
+    let sortResult;
+    if (dateA > dateB) {
+      sortResult = 1;
+    } else {
+      sortResult = -1;
+      // higher date
+    }
+    return sortResult;
   }
 
   filteredEventsData.sort(sortByDateAsc);
@@ -39,7 +51,7 @@ const EventsList: React.FC<Props> = ({ eventsData }) => {
     <Container maxWidth="lg" className="event-container">
       <Grid container spacing={3}>
         {filteredEventsData.map(
-          ({ _id, title, flyerFront, venue, date, venueGmapsUrl }: any) => (
+          ({ _id, title, flyerFront, venue, date }: any) => (
             <Event
               key={_id}
               title={title}
@@ -47,6 +59,7 @@ const EventsList: React.FC<Props> = ({ eventsData }) => {
               venueName={venue.name}
               date={date}
               venueGmapsUrl={venue.direction}
+              updateShoppingCartCount={updateShoppingCartCount}
             />
           )
         )}

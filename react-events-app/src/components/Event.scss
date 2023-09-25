@@ -1,6 +1,23 @@
 /* Event.scss */
+@import "colors";
 
-
-.event-card .MuiPaper-root {
+.event-card {
+  .MuiPaper-root {
     height: 100%;
+  }
+
+  .calendar-icon,
+  .location-icon {
+    position: relative;
+    top: 5px;
+    margin-right: 6px;
+  }
+
+  .event-title {
+    margin-top: 10px;
+  }
+
+  .external-link {
+    color: $primary-dark;
+  }
 }

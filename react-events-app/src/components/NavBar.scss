@@ -1,0 +1,11 @@
+@import "colors";
+
+.MuiAppBar-root {
+  &.header {
+    background-color: $primary-dark;
+  }
+
+  .badge .MuiBadge-badge {
+    background: rgb(255, 171, 84);
+  }
+}
