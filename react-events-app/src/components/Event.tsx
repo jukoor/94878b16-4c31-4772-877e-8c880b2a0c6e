@@ -26,9 +26,8 @@ type Props = {
   title: string;
   flyerFront: string;
   venueName: string;
-  dateTimeStart: string;
-  dateTimeEnd: string;
   venueGmapsUrl: string;
+  date: string;
 };
 
 const Event: React.FC<Props> = ({
@@ -36,8 +35,7 @@ const Event: React.FC<Props> = ({
   flyerFront,
   venueName,
   venueGmapsUrl,
-  dateTimeStart,
-  dateTimeEnd,
+  date,
 }) => {
   const dateFormatOptions = {
     year: "numeric",
@@ -47,14 +45,7 @@ const Event: React.FC<Props> = ({
     minute: "2-digit",
   };
   // TODO: Types
-  let formatedDateTimeBegin = new Date(dateTimeStart).toLocaleString([], {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  let formatedDateTimeEnd = new Date(dateTimeEnd).toLocaleString([], {
+  let formatedDate = new Date(date).toLocaleString([], {
     year: "numeric",
     month: "numeric",
     day: "numeric",
@@ -75,7 +66,7 @@ const Event: React.FC<Props> = ({
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary">
               <CalendarMonth />
-              {formatedDateTimeBegin}
+              {formatedDate}
             </Typography>
             <Typography gutterBottom component="h2" variant="h6">
               {title}
