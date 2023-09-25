@@ -1,10 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import "./App.css";
-import EventsList from "./components/EventsList";
-import NavBar from "./components/NavBar";
 
-function App() {
+import "./App.css";
+import NavBar from "./components/NavBar";
+import EventsList from "./components/EventsList";
+import Event from "./components/Event";
+
+const App: React.FC = () => {
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,21 +35,13 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <EventsList />
+      {eventData && <EventsList eventsData={eventData} />}
       {loading && <div>A moment please...</div>}
       {error && (
         <div>{`There is a problem fetching the post data - ${error}`}</div>
       )}
-      <ul>
-        {eventData &&
-          eventData.map(({ _id, title }) => (
-            <li key={_id}>
-              <h3>{title}</h3>
-            </li>
-          ))}
-      </ul>
     </div>
   );
-}
+};
 
 export default App;
