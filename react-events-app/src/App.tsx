@@ -12,7 +12,7 @@ const App: React.FC = () => {
   const [error, setError] = useState(null);
   const [filteredEventsData, setFilteredEventsData] =
     useState<any[]>(eventData);
-  const [shoppingCartCount, setshoppingCartCount] = useState(0);
+  const [shoppingCartCount, setshoppingCartCount] = useState<number>(0);
 
   useEffect(() => {
     fetch(`https://teclead-ventures.github.io/data/london-events.json`)
@@ -46,16 +46,25 @@ const App: React.FC = () => {
         item.title.toLowerCase().includes(key.toLowerCase())
       );
     };
-
+    console.log(filteredEventsData);
     // Use the filter function to get the filtered results
     setFilteredEventsData(filterBySearch(eventData, searchInput));
-    console.log(filteredEventsData);
   };
 
-  // Function to increment shopping basket counter in navbar
-  const updateShoppingCartCount = () => {
+  // Function to increment shopping basket counter in navbar and remove selected item from list
+  const handleAddEventClick = (selectedEventId: string) => {
     setshoppingCartCount(shoppingCartCount + 1);
-    console.log("Shopping Cart Count: " + shoppingCartCount + 1);
+
+    // setFilteredEventsData
+    console.log(selectedEventId);
+    console.log(filteredEventsData.length);
+
+    // remove selected item from list
+    const reducedEventsData = filteredEventsData.filter(
+      (ev) => ev._id !== selectedEventId
+    );
+
+    setFilteredEventsData(reducedEventsData);
   };
 
   return (
@@ -73,10 +82,10 @@ const App: React.FC = () => {
       >
         Displaying {filteredEventsData.length} Events
       </Typography>
-      {eventData && (
+      {filteredEventsData && (
         <EventsList
           eventsData={filteredEventsData}
-          updateShoppingCartCount={updateShoppingCartCount}
+          updateShoppingCartCount={handleAddEventClick}
         />
       )}
       {loading && <div>A moment please...</div>}

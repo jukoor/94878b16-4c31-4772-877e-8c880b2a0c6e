@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 type Props = {
   eventsData: object[];
-  updateShoppingCartCount: () => void;
+  updateShoppingCartCount: (selectedEventId: string) => void;
 };
 
 const EventsList: React.FC<Props> = ({
@@ -51,13 +51,24 @@ const EventsList: React.FC<Props> = ({
     <Container maxWidth="lg" className="event-container">
       <Grid container spacing={3}>
         {filteredEventsData.map(
-          ({ _id, title, flyerFront, venue, date }: any) => (
+          ({
+            _id,
+            title,
+            flyerFront,
+            venue,
+            date,
+            startTime,
+            endTime,
+          }: any) => (
             <Event
               key={_id}
+              id={_id}
               title={title}
               flyerFront={flyerFront}
               venueName={venue.name}
               date={date}
+              startTime={startTime}
+              endTime={endTime}
               venueGmapsUrl={venue.direction}
               updateShoppingCartCount={updateShoppingCartCount}
             />

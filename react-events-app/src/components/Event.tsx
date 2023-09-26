@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -23,22 +24,32 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 type Props = {
+  id: string;
   title: string;
   flyerFront: string;
   venueName: string;
   venueGmapsUrl: string;
   date: string;
-  updateShoppingCartCount: () => void;
+  startTime: string;
+  endTime: string;
+  updateShoppingCartCount: (selectedEventId: string) => void;
 };
 
 const Event: React.FC<Props> = ({
+  id,
   title,
   flyerFront,
   venueName,
   venueGmapsUrl,
   date,
+  startTime,
+  endTime,
   updateShoppingCartCount,
 }) => {
+  const [imageValidity, setImageValidity] = useState({
+    imageUrl: "",
+    isValidImageUrl: false,
+  });
   const dateFormatOptions = {
     year: "numeric",
     month: "numeric",
@@ -48,13 +59,57 @@ const Event: React.FC<Props> = ({
   };
 
   // TODO: Types
-  let formatedDate = new Date(date).toLocaleString([], {
+  let formattedDate = new Date(date).toLocaleString([], {
     year: "numeric",
     month: "numeric",
     day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   });
+
+  let formatTime = (date: string) => {
+    return new Date(date).toLocaleTimeString(navigator.language, {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  let formattedStartTime = formatTime(startTime);
+  let formattedEndTime = formatTime(endTime);
+
+  const placeholderImage = "https://unsplash.com/de/fotos/0BZcsD8UVmM";
+
+  // const Image = ({}) => {
+  //   const [error, setError] = useState(false);
+
+  //   const onError = () => {
+  //     setError(true);
+  //     console.log("error");
+  //   };
+
+  //   const onLoad = () => {
+  //     setError(false);
+  //     console.log("succ");
+  //   };
+
+  //   return error ? (
+  //     <CardMedia
+  //       component="img"
+  //       alt={title}
+  //       height="140"
+  //       image={placeholderImage}
+  //       onError={onError}
+  //       onLoad={onLoad}
+  //     />
+  //   ) : (
+  //     <CardMedia
+  //       component="img"
+  //       alt={title}
+  //       height="140"
+  //       image={flyerFront}
+  //       onError={onError}
+  //       onLoad={onLoad}
+  //     />
+  //   );
+  // };
 
   return (
     <Grid xs={12} md={6} lg={4} className="event-card">
@@ -69,7 +124,9 @@ const Event: React.FC<Props> = ({
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary">
               <CalendarMonthIcon className="calendar-icon" />
-              <Typography component="span">{formatedDate}</Typography>
+              <Typography component="span">
+                {formattedDate} {formattedStartTime}-{formattedEndTime}
+              </Typography>
             </Typography>
             <Typography
               gutterBottom
@@ -96,7 +153,7 @@ const Event: React.FC<Props> = ({
               size="small"
               variant="contained"
               startIcon={<Add />}
-              onClick={updateShoppingCartCount}
+              onClick={() => updateShoppingCartCount(id)}
             >
               Add
             </Button>
