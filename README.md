@@ -13,7 +13,7 @@ Simple React App that fetches Event Data from API and displays them in a grid. E
 git clone https://github.com/jukoor/94878b16-4c31-4772-877e-8c880b2a0c6e.git
 
 # cd in folder
-cd react-events-app
+cd 94878b16-4c31-4772-877e-8c880b2a0c6e/react-events-app
 
 # install dependencies
 npm install
@@ -26,4 +26,4 @@ npm start
 
 - Image validity test
 - Skeleton card while loading
-- Gridview - listview toggle
+- Gridview - listview
