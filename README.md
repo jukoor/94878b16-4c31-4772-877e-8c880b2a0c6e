@@ -26,4 +26,4 @@ npm start
 
 - Image validity test
 - Skeleton card while loading
-- Gridview - listview togglen
+- Gridview - listview toggle

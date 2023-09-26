@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import "./App.scss";
 import NavBar from "./components/NavBar";
 import EventsList from "./components/EventsList";
-import Event from "./components/Event";
 
 const App: React.FC = () => {
   const [eventData, setEventData] = useState([]);
@@ -13,6 +12,7 @@ const App: React.FC = () => {
   const [filteredEventsData, setFilteredEventsData] =
     useState<any[]>(eventData);
   const [shoppingCartCount, setshoppingCartCount] = useState<number>(0);
+  const [shoppingCartData, setShoppingCartData] = useState([]);
 
   useEffect(() => {
     fetch(`https://teclead-ventures.github.io/data/london-events.json`)
@@ -23,7 +23,6 @@ const App: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
         setEventData(data);
         setFilteredEventsData(data);
       })
@@ -46,25 +45,29 @@ const App: React.FC = () => {
         item.title.toLowerCase().includes(key.toLowerCase())
       );
     };
-    console.log(filteredEventsData);
     // Use the filter function to get the filtered results
     setFilteredEventsData(filterBySearch(eventData, searchInput));
   };
 
   // Function to increment shopping basket counter in navbar and remove selected item from list
-  const handleAddEventClick = (selectedEventId: string) => {
+  const handleAddEventClick = (selectedEventId: string, index: number) => {
     setshoppingCartCount(shoppingCartCount + 1);
 
-    // setFilteredEventsData
-    console.log(selectedEventId);
-    console.log(filteredEventsData.length);
-
     // remove selected item from list
-    const reducedEventsData = filteredEventsData.filter(
+    const reducedEventsData: any = filteredEventsData.filter(
       (ev) => ev._id !== selectedEventId
     );
-
+    // console.log(selectedEventId, index);
     setFilteredEventsData(reducedEventsData);
+
+    // not working, unsure why
+    // setShoppingCartData([...shoppingCartData, reducedEventsData[index]]);
+
+    console.log(shoppingCartData);
+  };
+
+  const handleShoppingCart = () => {
+    console.log(shoppingCartCount);
   };
 
   return (
@@ -72,6 +75,7 @@ const App: React.FC = () => {
       <NavBar
         onSearchInput={handleSearchInput}
         shoppingCartCount={shoppingCartCount}
+        handleShoppingCart={handleShoppingCart}
       />
       <Typography
         align="center"

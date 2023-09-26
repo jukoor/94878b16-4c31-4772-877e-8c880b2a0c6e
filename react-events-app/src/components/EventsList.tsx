@@ -1,24 +1,13 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import Container from "@mui/material/Container";
 import Event from "./Event";
 import "./EventsList.scss";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: 0,
-  color: theme.palette.text.secondary,
-  boxShadow: "none",
-}));
-
 type Props = {
   eventsData: object[];
-  updateShoppingCartCount: (selectedEventId: string) => void;
+  updateShoppingCartCount: (selectedEventId: string, index: number) => void;
 };
 
 const EventsList: React.FC<Props> = ({
@@ -26,7 +15,6 @@ const EventsList: React.FC<Props> = ({
   updateShoppingCartCount,
 }) => {
   const [filteredEventsData, setFilteredEventsData] = useState(eventsData);
-  const [currentHighestDate, setCurrentHighestDate] = useState(0);
 
   function sortByDateAsc(a: any, b: any): number {
     let dateA = new Date(a.date);
@@ -45,23 +33,19 @@ const EventsList: React.FC<Props> = ({
   useEffect(() => {
     // initial value in useState() is not set correctly
     setFilteredEventsData(eventsData);
-  });
+  }, [eventsData]);
 
   return (
     <Container maxWidth="lg" className="event-container">
       <Grid container spacing={3}>
         {filteredEventsData.map(
-          ({
-            _id,
-            title,
-            flyerFront,
-            venue,
-            date,
-            startTime,
-            endTime,
-          }: any) => (
+          (
+            { _id, title, flyerFront, venue, date, startTime, endTime }: any,
+            index
+          ) => (
             <Event
               key={_id}
+              index={index}
               id={_id}
               title={title}
               flyerFront={flyerFront}

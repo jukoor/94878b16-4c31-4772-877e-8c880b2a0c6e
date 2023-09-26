@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -25,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 type Props = {
   id: string;
+  index: number;
   title: string;
   flyerFront: string;
   venueName: string;
@@ -32,11 +32,12 @@ type Props = {
   date: string;
   startTime: string;
   endTime: string;
-  updateShoppingCartCount: (selectedEventId: string) => void;
+  updateShoppingCartCount: (selectedEventId: string, index: number) => void;
 };
 
 const Event: React.FC<Props> = ({
   id,
+  index,
   title,
   flyerFront,
   venueName,
@@ -46,19 +47,6 @@ const Event: React.FC<Props> = ({
   endTime,
   updateShoppingCartCount,
 }) => {
-  const [imageValidity, setImageValidity] = useState({
-    imageUrl: "",
-    isValidImageUrl: false,
-  });
-  const dateFormatOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-
-  // TODO: Types
   let formattedDate = new Date(date).toLocaleString([], {
     year: "numeric",
     month: "numeric",
@@ -75,8 +63,7 @@ const Event: React.FC<Props> = ({
   let formattedStartTime = formatTime(startTime);
   let formattedEndTime = formatTime(endTime);
 
-  const placeholderImage = "https://unsplash.com/de/fotos/0BZcsD8UVmM";
-
+  // not workimg: trying to validate image source before rendering
   // const Image = ({}) => {
   //   const [error, setError] = useState(false);
 
@@ -142,6 +129,7 @@ const Event: React.FC<Props> = ({
                 className="external-link"
                 href={venueGmapsUrl}
                 target="_blank"
+                rel="noreferrer"
                 aria-label="Google Maps directions to venue"
               >
                 {venueName}
@@ -153,7 +141,7 @@ const Event: React.FC<Props> = ({
               size="small"
               variant="contained"
               startIcon={<Add />}
-              onClick={() => updateShoppingCartCount(id)}
+              onClick={() => updateShoppingCartCount(id, index)}
             >
               Add
             </Button>
