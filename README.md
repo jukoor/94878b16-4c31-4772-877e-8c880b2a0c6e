@@ -22,6 +22,11 @@ npm install
 npm start
 ```
 
+# Known Issues
+
+- Shopping cart logic not finalized
+- Event-date on-scroll logic not finalized
+
 # Roadmap
 
 - Image validity test
